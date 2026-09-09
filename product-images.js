@@ -17,3 +17,20 @@ document.querySelectorAll('.product-img img').forEach(image=>{const product=prod
 
 products.forEach(product=>product.image=reliableCategoryImages[product.category]||reliableCategoryImages.Electronics);
 loadRoute();
+
+
+// Replace repeated category photos with matching product photos as each card enters view.
+const productPhotoCards=[...document.querySelectorAll('.product-img img')];
+productPhotoCards.forEach((image,index)=>{
+  const product=products.find(item=>item.name===image.alt);
+  const tags=productImageTags[product?.name]||product?.category?.replace(/\s+/g,',')||'product';
+  const fallback=reliableCategoryImages[product?.category]||reliableCategoryImages.Electronics;
+  const loadSpecificPhoto=()=>{
+    image.onerror=()=>{image.onerror=null;image.src=fallback};
+    image.src=`https://loremflickr.com/900/700/${tags}?lock=${product?.id||index+1}`;
+  };
+  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+    if(entry.isIntersecting){setTimeout(loadSpecificPhoto,index*250);observer.disconnect()}
+  }),{rootMargin:'180px'});
+  observer.observe(image);
+});
