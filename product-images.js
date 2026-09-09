@@ -11,3 +11,6 @@ const productImageTags={
 };
 products.forEach(product=>{const tags=productImageTags[product.name]||product.category.replace(/\s+/g,',');product.image=`https://loremflickr.com/900/700/${tags}?lock=${product.id}`});
 loadRoute();
+
+const reliableCategoryImages={Electronics:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85',Fashion:'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85','Home & Kitchen':'https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&q=85',Grocery:'https://images.unsplash.com/photo-1543168256-418811576931?auto=format&fit=crop&w=900&q=85',Beauty:'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=85',Sports:'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=85',Accessories:'https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?auto=format&fit=crop&w=900&q=85'};
+document.querySelectorAll('.product-img img').forEach(image=>{const product=products.find(item=>item.name===image.alt);const fallback=reliableCategoryImages[product?.category]||reliableCategoryImages.Electronics;const useFallback=()=>{image.onerror=null;image.src=fallback;image.style.display='block'};image.onerror=useFallback;if(image.complete&&!image.naturalWidth)useFallback()});
