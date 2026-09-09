@@ -1,43 +1,5 @@
-// Product-specific photographic queries. Every catalogue item gets its own image theme.
-const productImageTags={
-'Nova X5 Smartphone':'smartphone,phone','Aero Wireless Headphones':'wireless,headphones','Orbit Smart Watch':'smartwatch,watch','Pro Mechanical Keyboard':'mechanical,keyboard','Trail Running Shoes':'running,shoes','Everyday City Backpack':'backpack,bag','BrewCraft Coffee Maker':'coffee,maker','Glow Smart LED Bulb':'led,lightbulb','Classic Cotton T-Shirt':'cotton,tshirt','Nourish Skincare Set':'skincare,beauty','Pulse Bluetooth Speaker':'bluetooth,speaker','ChefPro Kitchen Mixer':'kitchen,mixer',
-'ZenBook Air Laptop':'laptop,computer','Click Wireless Mouse':'wireless,mouse','ChargeMax Power Bank':'powerbank,charger','Link USB-C Hub':'usb,hub','ClearView Webcam':'webcam,camera','Beam Mini Projector':'mini,projector',
-'Denim Slim Jeans':'denim,jeans','Cozy Fleece Hoodie':'fleece,hoodie','Linen Casual Shirt':'linen,shirt','Urban Sneakers':'sneakers,shoes','Classic Bomber Jacket':'bomber,jacket','Indigo Printed Kurti':'kurti,fashion','Evening Midi Dress':'midi,dress','Active Track Pants':'track,pants','Canvas Everyday Tote':'canvas,tote',
-'Electric Kettle Pro':'electric,kettle','Ceramic Frying Pan':'ceramic,pan','FreshLock Storage Set':'food,containers','Crisp Air Fryer':'air,fryer','Porcelain Dinner Set':'porcelain,dinnerware','Steel Water Bottle':'steel,water-bottle','Breakfast Toaster':'kitchen,toaster','Modular Kitchen Organizer':'kitchen,organizer',
-'Premium Basmati Rice 5kg':'basmati,rice','Whole Wheat Flour 5kg':'wheat,flour','Cold Pressed Cooking Oil':'cooking,oil','Pure Cane Sugar 1kg':'cane,sugar','Iodised Salt 1kg':'salt,food','Masala Chai 500g':'masala,tea','Instant Coffee 200g':'instant,coffee','Butter Biscuits Pack':'butter,biscuits','Durum Wheat Pasta':'pasta,food','Honey Almond Cereal':'almond,cereal',
-'Gentle Face Wash':'face,wash','Daily Moisturizer':'moisturizer,skincare','SPF 50 Sunscreen':'sunscreen,skincare','Repair Shampoo':'shampoo,haircare','Smooth Conditioner':'conditioner,haircare','Shea Body Lotion':'body,lotion','Mint Lip Balm':'lip,balm','Vitamin C Serum':'vitamin,serum','Clay Face Mask':'clay,face-mask','Eau de Parfum':'perfume,bottle',
-'Flex Yoga Mat':'yoga,mat','Adjustable Dumbbells':'dumbbells,fitness','English Willow Cricket Bat':'cricket,bat','Match Football':'football,soccer','Court Basketball':'basketball,sport','Speed Skipping Rope':'skipping,rope','Resistance Bands Set':'resistance,bands','Insulated Sports Bottle':'sports,bottle','Grip Gym Gloves':'gym,gloves',
-'Leather Wallet':'leather,wallet','Polarized Sunglasses':'sunglasses,eyewear','Classic Analog Watch':'analog,watch','Formal Leather Belt':'leather,belt','Cotton Baseball Cap':'baseball,cap','Protective Phone Case':'phone,case','Metal Keychain':'metal,keychain','Travel Toiletry Pouch':'travel,pouch','Padded Laptop Sleeve':'laptop,sleeve','Minimal Card Holder':'card,holder'
-};
-products.forEach(product=>{const tags=productImageTags[product.name]||product.category.replace(/\s+/g,',');product.image=`https://loremflickr.com/900/700/${tags}?lock=${product.id}`});
-loadRoute();
-
-const reliableCategoryImages={Electronics:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85',Fashion:'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85','Home & Kitchen':'https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&q=85',Grocery:'https://images.unsplash.com/photo-1543168256-418811576931?auto=format&fit=crop&w=900&q=85',Beauty:'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=85',Sports:'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=85',Accessories:'https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?auto=format&fit=crop&w=900&q=85'};
-document.querySelectorAll('.product-img img').forEach(image=>{const product=products.find(item=>item.name===image.alt);const fallback=reliableCategoryImages[product?.category]||reliableCategoryImages.Electronics;const useFallback=()=>{image.onerror=null;image.src=fallback;image.style.display='block'};image.onerror=useFallback;if(image.complete&&!image.naturalWidth)useFallback()});
-
-products.forEach(product=>product.image=reliableCategoryImages[product.category]||reliableCategoryImages.Electronics);
-loadRoute();
-
-
-// Replace repeated category photos with matching product photos as each card enters view.
-const productPhotoCards=[...document.querySelectorAll('.product-img img')];
-productPhotoCards.forEach((image,index)=>{
-  const product=products.find(item=>item.name===image.alt);
-  const tags=productImageTags[product?.name]||product?.category?.replace(/\s+/g,',')||'product';
-  const fallback=reliableCategoryImages[product?.category]||reliableCategoryImages.Electronics;
-  const loadSpecificPhoto=()=>{
-    image.onerror=()=>{image.onerror=null;image.src=fallback};
-    image.src=`https://loremflickr.com/900/700/${tags}?lock=${product?.id||index+1}`;
-  };
-  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
-    if(entry.isIntersecting){setTimeout(loadSpecificPhoto,index*250);observer.disconnect()}
-  }),{rootMargin:'180px'});
-  observer.observe(image);
-});
-
-
-// Stable, individual images for the featured catalogue items.
-const verifiedProductPhotos={
+// Reliable individual catalogue photos.
+const productPhotos={
   'Nova X5 Smartphone':'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85',
   'Aero Wireless Headphones':'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85',
   'Orbit Smart Watch':'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85',
@@ -49,9 +11,20 @@ const verifiedProductPhotos={
   'Classic Cotton T-Shirt':'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85',
   'Nourish Skincare Set':'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=85',
   'Pulse Bluetooth Speaker':'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=85',
-  'ChefPro Kitchen Mixer':'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=900&q=85'
+  'ChefPro Kitchen Mixer':'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=900&q=85',
+  'ZenBook Air Laptop':'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85',
+  'Click Wireless Mouse':'https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=85',
+  'Urban Sneakers':'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85',
+  'Flex Yoga Mat':'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=900&q=85',
+  'Adjustable Dumbbells':'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=900&q=85',
+  'Match Football':'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?auto=format&fit=crop&w=900&q=85',
+  'Court Basketball':'https://images.unsplash.com/photo-1518065896235-a4c93e088e7a?auto=format&fit=crop&w=900&q=85',
+  'Polarized Sunglasses':'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=900&q=85',
+  'Classic Analog Watch':'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=900&q=85',
+  'Cotton Baseball Cap':'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=900&q=85',
+  'Leather Wallet':'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=900&q=85'
 };
-setTimeout(()=>document.querySelectorAll('.product-img img').forEach(image=>{
-  const directPhoto=verifiedProductPhotos[image.alt];
-  if(directPhoto){image.onerror=()=>{image.onerror=null;image.src=reliableCategoryImages[products.find(item=>item.name===image.alt)?.category]||reliableCategoryImages.Electronics};image.src=directPhoto}
-}),3500);
+const categoryPhotos={Electronics:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85',Fashion:'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85','Home & Kitchen':'https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&q=85',Grocery:'https://images.unsplash.com/photo-1543168256-418811576931?auto=format&fit=crop&w=900&q=85',Beauty:'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=85',Sports:'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=85',Accessories:'https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?auto=format&fit=crop&w=900&q=85'};
+products.forEach(product=>{product.image=productPhotos[product.name]||categoryPhotos[product.category]||categoryPhotos.Electronics});
+loadRoute();
+document.querySelectorAll('.product-img img').forEach(image=>{image.onerror=()=>{const product=products.find(item=>item.name===image.alt);image.onerror=null;image.src=categoryPhotos[product?.category]||categoryPhotos.Electronics}});
