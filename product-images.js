@@ -34,3 +34,24 @@ productPhotoCards.forEach((image,index)=>{
   }),{rootMargin:'180px'});
   observer.observe(image);
 });
+
+
+// Stable, individual images for the featured catalogue items.
+const verifiedProductPhotos={
+  'Nova X5 Smartphone':'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85',
+  'Aero Wireless Headphones':'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85',
+  'Orbit Smart Watch':'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85',
+  'Pro Mechanical Keyboard':'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=85',
+  'Trail Running Shoes':'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85',
+  'Everyday City Backpack':'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=85',
+  'BrewCraft Coffee Maker':'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=85',
+  'Glow Smart LED Bulb':'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&w=900&q=85',
+  'Classic Cotton T-Shirt':'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85',
+  'Nourish Skincare Set':'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=85',
+  'Pulse Bluetooth Speaker':'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=85',
+  'ChefPro Kitchen Mixer':'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=900&q=85'
+};
+setTimeout(()=>document.querySelectorAll('.product-img img').forEach(image=>{
+  const directPhoto=verifiedProductPhotos[image.alt];
+  if(directPhoto){image.onerror=()=>{image.onerror=null;image.src=reliableCategoryImages[products.find(item=>item.name===image.alt)?.category]||reliableCategoryImages.Electronics};image.src=directPhoto}
+}),3500);
