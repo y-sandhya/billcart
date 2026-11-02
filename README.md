@@ -1,14 +1,14 @@
 # BillCart
 
-Self-contained, responsive e-commerce and billing demonstration. Open `index.html` in a modern browser—there is no install step or backend configuration required. Routes are refresh-safe hash URLs, for example `index.html#/login`, `index.html#/dashboard`, `index.html#/shop`, `index.html#/cart`, `index.html#/checkout`, `index.html#/orders`, `index.html#/admin`, or `index.html#/invoice/ORD-2026-10025`.
+BillCart is a self-contained vanilla HTML, CSS, and JavaScript commerce demonstration. Open `index.html` in a modern browser; no build or install step is needed. Hash routes include `#/shop`, `#/cart`, `#/checkout`, `#/orders`, `#/account`, and `#/admin`.
 
-Included functional demonstrations:
+## Included demo flows
 
-- Customer catalogue with 70+ validated products (10+ in every category), search, filters, wishlist, cart, stock-aware quantities, coupons and dynamic GST billing
-- Demo sign-in with Remember me, Forgot password and Register affordances (`customer@billcart.com` or `admin@billcart.com`, any password), plus customer and admin dashboards
-- Address/payment checkout, stock decrement, persistent order history, Buy Again, and a normalized persisted order record with `paymentMethod` / `paymentStatus`
-- GST invoice with price snapshots, HSN/SAC, CGST/SGST, QR-style verification mark, print/PDF browser flow
-- Dark mode, local persistence, smart rule-based recommendations and shopping assistant
-- Admin analytics dashboard, low-stock alerts, latest orders, and inventory CSV export
+- 159 unique, structured products across seven categories, with distinct mapped photography or generated product-specific image fallbacks
+- Search, category and price filters, stock filtering, sorting, wishlist, stock-aware customer carts, coupon codes, mixed sample GST rates, and checkout totals
+- Local demo customer registration and sign in, per-customer cart/wishlist/profile/address storage, account dashboard, and saved addresses
+- Demo payment success, failure, and cancellation outcomes; orders, tracking, cancellation, return requests, and printable tax invoices
+- Admin overview, product creation, inventory updates, order status updates, customer overview, coupon creation, and CSV export
+- Dark mode, responsive layouts, rule-based shopping assistant, and local persistence
 
-The app intentionally uses browser local storage as its demo data layer. For a deployed production version, replace the state adapter in `app.js` with Supabase Auth and database calls; card data must continue to be handled only by a PCI-compliant payment provider.
+This is a localStorage-only demonstration. Browser storage can be edited by its user; demo passphrases are not stored or securely checked, and data is not protected across browser profiles. Do not enter real passwords or payment details. Payment outcomes are simulated and no gateway is contacted. Sample ratings, HSN and GST values are illustrative and unverified. Invoices are demo print views; they are not government tax invoices and their reference is not an online verification service. Store settings are unavailable. A production deployment needs server-backed identity, authorization, inventory and orders plus a PCI-compliant payment provider.
